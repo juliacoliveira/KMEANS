@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 # Opening the file
-csv_file = 'C:/Users/julia/Downloads/7 semestre/IA/Projeto/KMEANS/diamonds_training.csv' #need to change the path of the file csv
+csv_file = '/diamonds_training.csv' #need to change the path of the file csv
 df = pd.read_csv(csv_file, delimiter=';')
 print (df.head(3))
 

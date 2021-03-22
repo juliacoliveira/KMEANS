@@ -55,6 +55,7 @@ targets_df = df.drop(['carat', 'color', 'table', 'x', 'y', 'z'], axis = 1).value
 # Opening the file
 csv_file = 'C:/Users/julia/Downloads/7 semestre/IA/Projeto/KMEANS/diamonds_test.csv' #need to change the path of the file csv
 df = pd.read_csv(csv_file, delimiter=';')
+df_visual = df.copy()
 print (df.head(3))
 
 indexNames = df[ df['price'] == 4].index
@@ -116,3 +117,72 @@ score = scoreKMeans(converted_predictions,targets_test)
 print("Score = {}".format(score))
 print("Inercia = {}".format(rede.inertia_))
 print("Matriz de confusão =\n{}\n".format(confusion_matrix(converted_predictions, targets_test)))
+
+######## Trying to plot the graphics ################## 
+
+# Filter rows from different data
+#print (enumed_predictions)
+
+clusters_pertencentes = list(map(lambda x: x[1], enumed_predictions))
+classes_pertencentes = list(map(lambda x: catergorized_clusters[x][0], clusters_pertencentes))
+
+labels_0 = [x == 0 for x in classes_pertencentes]
+labels_1 = [x == 1 for x in classes_pertencentes]
+labels_2 = [x == 2 for x in classes_pertencentes]
+
+labels_original_0 = [x == 0 for x in df['price']]
+labels_original_1 = [x == 1 for x in df['price']]
+labels_original_2 = [x == 2 for x in df['price']]
+
+testes_classe_0 = df[labels_0]
+testes_original_0 = df[labels_original_0]
+
+testes_classe_1 = df[labels_1]
+testes_original_1 = df[labels_original_1]
+
+testes_classe_2 = df[labels_2]
+testes_original_2 = df[labels_original_2]
+
+testes_classes = [testes_classe_0, testes_classe_1, testes_classe_2]
+testes_original = [testes_original_0, testes_original_1 , testes_original_2]
+
+carac = ['carat', 'color', 'table', 'x', 'y','z']
+carac2 = ["carat", "color", "table", "x", "y","z"]
+
+for z in range (0, 3):
+
+  for y in range (1, 4):
+
+    plt.subplot(3, 3, z*3 + y)
+
+    plt.scatter(testes_classes[y-1][carac[z]], testes_classes[y-1]['price'], marker="*", c="red")
+    plt.scatter(testes_original[y-1][carac[z]], testes_original[y-1]['price'], alpha=0.01, c="blue")
+
+    plt.xlabel(carac[z])
+    plt.ylabel("price")
+plt.show()    
+
+for z in range (0, 3):
+
+  for y in range (1, 4):
+
+    plt.subplot(3, 3, z*3+y)
+
+    plt.scatter(testes_classes[y-1][carac[z+3]], testes_classes[y-1]['price'], marker="*", c="red")
+    plt.scatter(testes_original[y-1][carac[z+3]], testes_original[y-1]['price'], alpha=0.01, c="blue")
+
+    plt.xlabel(carac[z+3])
+    plt.ylabel("price")
+
+plt.show()
+
+
+
+#print (catergorized_clusters[enumed_predictions[0][1]][0])
+#clusters = pd.DataFrame[catergorized_clusters]
+#filtered_label0 = clusters[label == 0]
+#print (filtered_label0)
+
+#plotting the results
+'''plt.scatter(filtered_label0[:,0] , filtered_label0[:,1])
+plt.show()'''
